@@ -1,9 +1,8 @@
 package com.example.springmvc.servlet;
 
-import com.example.springmvc.handler.UserAddHandler;
-import com.example.springmvc.handler.UserDeleteHandler;
-import com.example.springmvc.handler.iface.HttpRequestHandler;
-import com.example.springmvc.handlermapping.BeanUrlHandlerMapping;
+import com.example.springmvc.handleradapter.HttpRequestHandlerAdapter;
+import com.example.springmvc.handleradapter.iface.HandlerAdapter;
+import com.example.springmvc.handlermapping.BeanNameHandlerMapping;
 import com.example.springmvc.handlermapping.SimpleHandlerMapping;
 import com.example.springmvc.handlermapping.iface.HandlerMapping;
 
@@ -11,7 +10,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +27,14 @@ public class DispatcherServlet extends AbstractHttpServelt {
     private static final long serialVersionUID = -5582760765376805456L;
 
     List<HandlerMapping> handlerMappings = new ArrayList<>();
+    List<HandlerAdapter> handlerAdapters = new ArrayList<>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         handlerMappings.add(new SimpleHandlerMapping());
-        handlerMappings.add(new BeanUrlHandlerMapping());
+        handlerMappings.add(new BeanNameHandlerMapping());
+
+        handlerAdapters.add(new HttpRequestHandlerAdapter());
     }
 
     /**
@@ -49,18 +50,43 @@ public class DispatcherServlet extends AbstractHttpServelt {
             // 2、根据请求处理对应的处理器类（策略模式）
             Object handler = getHandler(request);
             // 3、处理器类处理请求（策略模式，适配器模式）
-            if (handler instanceof UserAddHandler) {
+            // 找到合适的适配器，适配器也是有很多策略的
+            HandlerAdapter handlerAdapter = getHandlerAdapter(handler);
+            // 根据查找到的适配器去执行处理器
+            if (handlerAdapter == null) {
+                return;
+            }
+            handlerAdapter.handleRequest(handler, request, response);
+
+
+
+          /*  if (handler instanceof UserAddHandler) {
                 ((UserAddHandler) handler).handleRequest(request, response);
             } else if (handler instanceof UserDeleteHandler) {
                 ((UserDeleteHandler) handler).handleRequest(request, response);
             } else if (handler instanceof HttpRequestHandler) {
                 ((HttpRequestHandler) handler).handleRequest(request, response);
-            }
+            }*/
             //  4、响应请求
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 根据处理器查找适配器
+     *
+     * @param handler
+     * @return
+     */
+    private HandlerAdapter getHandlerAdapter(Object handler) {
+        for (HandlerAdapter handlerAdapter : handlerAdapters) {
+            if (handlerAdapter.supports(handler)) {
+                return handlerAdapter;
+            }
+        }
+        return null;
     }
 
     /**

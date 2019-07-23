@@ -17,11 +17,11 @@ import java.util.Map;
  * @ModifyDespriction:
  * @Version: V1.0.0
  */
-public class BeanUrlHandlerMapping implements HandlerMapping {
+public class BeanNameHandlerMapping implements HandlerMapping {
 
     Map<String, Object> urlHandlerMapping = new HashMap<>();
 
-    public BeanUrlHandlerMapping() {
+    public BeanNameHandlerMapping() {
         // 获取Spring容器
     }
 

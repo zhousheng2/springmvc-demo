@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <!--配置Handler-->
+    <bean name="/userQuery2" class="com.example.springmvc.handler.UserQueryHandler"></bean>
+
+    <!--配置处理器映射器-->
+    <bean class="com.example.springmvc.handlermapping.BeanNameHandlerMapping"></bean>
+
+    <!--配置处理器适配器-->
+    <bean class="com.example.springmvc.handleradapter.HttpRequestHandlerAdapter"></bean>
+</beans>

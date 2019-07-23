@@ -2,6 +2,7 @@ package com.example.springmvc.handlermapping;
 
 import com.example.springmvc.handler.UserAddHandler;
 import com.example.springmvc.handler.UserDeleteHandler;
+import com.example.springmvc.handler.UserQueryHandler;
 import com.example.springmvc.handlermapping.iface.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
     public SimpleHandlerMapping() {
         urlHandlerMapping.put("/userAdd", new UserAddHandler());
         urlHandlerMapping.put("/userDelete", new UserDeleteHandler());
+        urlHandlerMapping.put("/userQuery", new UserQueryHandler());
     }
 
     @Override
