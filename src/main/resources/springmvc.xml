@@ -5,7 +5,8 @@
     <bean name="/userQuery2" class="com.example.springmvc.handler.UserQueryHandler"></bean>
 
     <!--配置处理器映射器-->
-    <bean class="com.example.springmvc.handlermapping.BeanNameHandlerMapping"></bean>
+    <bean class="com.example.springmvc.handlermapping.BeanNameHandlerMapping" init-method="initMethod"></bean>
+    <bean class="com.example.springmvc.handlermapping.SimpleHandlerMapping"></bean>
 
     <!--配置处理器适配器-->
     <bean class="com.example.springmvc.handleradapter.HttpRequestHandlerAdapter"></bean>
