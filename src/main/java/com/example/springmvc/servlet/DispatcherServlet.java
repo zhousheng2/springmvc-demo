@@ -1,12 +1,8 @@
 package com.example.springmvc.servlet;
 
-import com.example.springframework.beans.config.BeanDefinition;
 import com.example.springframework.beans.factory.BeanFactory;
 import com.example.springframework.beans.factory.DefaultListableBeanFactory;
-import com.example.springmvc.handleradapter.HttpRequestHandlerAdapter;
 import com.example.springmvc.handleradapter.iface.HandlerAdapter;
-import com.example.springmvc.handlermapping.BeanNameHandlerMapping;
-import com.example.springmvc.handlermapping.SimpleHandlerMapping;
 import com.example.springmvc.handlermapping.iface.HandlerMapping;
 
 import javax.servlet.ServletConfig;
@@ -15,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Despriction: 请求分发（策略模式、适配器模式）
@@ -40,14 +35,12 @@ public class DispatcherServlet extends AbstractHttpServelt {
         BeanFactory beanFactory = new DefaultListableBeanFactory(contextConfigLocation);
 
         //饿汉式一次性加载创建所有的java的IOC容器中bean
+//        beanFactory.getBeansByType(Object.class);
+        //根据类型获取指定的bean，放入策略集合中
         handlerMappings = beanFactory.getBeansByType(HandlerMapping.class);
         handlerAdapters = beanFactory.getBeansByType(HandlerAdapter.class);
 
-
-
         //根据类型获取指定的bean，放入执行的集合中
-
-
 
 /*        handlerMappings.add(new SimpleHandlerMapping());
         handlerMappings.add(new BeanNameHandlerMapping());
@@ -75,7 +68,6 @@ public class DispatcherServlet extends AbstractHttpServelt {
                 return;
             }
             handlerAdapter.handleRequest(handler, request, response);
-
 
 
           /*  if (handler instanceof UserAddHandler) {

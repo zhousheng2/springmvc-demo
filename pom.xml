@@ -63,6 +63,7 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
+                    <!--获取真实的参数名称，否则是arg0,arg1....-->
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>

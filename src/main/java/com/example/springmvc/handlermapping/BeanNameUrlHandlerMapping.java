@@ -19,7 +19,7 @@ import java.util.Map;
  * @ModifyDespriction:
  * @Version: V1.0.0
  */
-public class BeanNameHandlerMapping implements HandlerMapping, BeanFactoryAware {
+public class BeanNameUrlHandlerMapping implements HandlerMapping, BeanFactoryAware {
 
     // 通过Aware接口，注入beanFactory实例
     private BeanFactory beanFactory;
